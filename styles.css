@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+/* Reset and Meme Styles */
 * {
     margin: 0;
     padding: 0;
@@ -6,299 +6,313 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #ff4757 0%, #ff3742 50%, #ff6348 100%);
+    font-family: 'Comic Neue', cursive;
+    line-height: 1.4;
+    color: #000;
+    background: #f0f0f0;
     min-height: 100vh;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    padding: 2rem;
 }
 
-/* Hero Section */
-.hero {
-    height: 60vh;
+/* Drake Meme */
+.meme-header {
+    margin-bottom: 3rem;
+}
+
+.drake-meme {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.drake-row {
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    border-bottom: 2px solid #000;
+}
+
+.drake-row:last-child {
+    border-bottom: none;
+}
+
+.drake-face {
+    font-size: 4rem;
+    margin-right: 2rem;
+    min-width: 100px;
+    text-align: center;
+}
+
+.drake-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #000;
+}
+
+/* Meme Content */
+.meme-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.meme-content h2 {
+    font-family: 'Courier New', monospace;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #000;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Distracted Boyfriend */
+.distracted-boyfriend {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.meme-visual {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.boyfriend { color: #ff6b35; }
+.girlfriend { color: #004e89; }
+.other-woman { color: #ff006e; }
+
+/* Galaxy Brain */
+.galaxy-brain {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.brain-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.brain-level {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f8f8;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+}
+
+.brain-img {
+    font-size: 3rem;
+    margin-right: 1.5rem;
+    min-width: 80px;
+}
+
+.brain-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* This is Fine */
+.this-is-fine {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.fire-scene {
+    margin-top: 2rem;
+}
+
+.fire-dog {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.fine-text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.situation {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #666;
+}
+
+/* Experience List */
+.expanding-brain-section {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.exp-item {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: #fff3cd;
+    border: 2px solid #856404;
+    border-radius: 8px;
+}
+
+.meme-emoji {
+    font-size: 2rem;
+    margin-right: 1rem;
+    min-width: 60px;
+}
+
+.exp-text {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Wojak Timeline */
+.wojak-section {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.wojak-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.wojak-stage {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #e8f4f8;
+    border: 2px solid #17a2b8;
+    border-radius: 8px;
+}
+
+.wojak {
+    font-size: 2.5rem;
+    margin-right: 1.5rem;
+    min-width: 70px;
+}
+
+.stage-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Final Meme */
+.final-meme {
+    background: white;
+    border: 3px solid #000;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.stonks-meme {
+    margin: 2rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    padding: 2rem;
+    gap: 2rem;
 }
 
-.hero-content {
-    max-width: 600px;
+.stonks {
+    font-size: 4rem;
 }
 
-.main-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeInUp 1s ease-out 0.5s forwards;
-}
-
-.subtitle {
-    font-size: 1.2rem;
-    color: #5a6c7d;
-    font-weight: 300;
-    opacity: 0;
-    animation: fadeInUp 1s ease-out 1s forwards;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Main Content */
-.main-content {
-    padding: 4rem 2rem;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    margin: 2rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    opacity: 1;
-    transform: translateY(0);
-    border: 3px solid #ff6b6b;
-}
-
-.warning-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, #2d3436, #636e72);
-    border-radius: 15px;
-    color: white;
-    border: 3px solid #fdcb6e;
-    position: relative;
-}
-
-.warning-header::before {
-    content: "⚠️ CAUTION TAPE ⚠️";
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #fdcb6e;
-    color: #2d3436;
-    padding: 5px 20px;
-    font-size: 0.8rem;
+.stonks-text {
+    font-size: 1.5rem;
     font-weight: bold;
-    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.warning-header h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+.arrow {
+    font-size: 2rem;
+    color: #28a745;
 }
 
-.warning-header p {
-    font-size: 1.1rem;
-    font-style: italic;
-}
-
-.warning-list {
-    margin-bottom: 3rem;
-}
-
-.warning-list h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: #ff6b6b;
-    margin-bottom: 2rem;
-    text-align: center;
-    font-weight: 600;
-}
-
-.warning-list ul {
-    list-style: none;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.warning-list li {
-    font-size: 1rem;
-    color: #444;
-    margin-bottom: 1.5rem;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 10px;
-    border-left: 5px solid #ff6b6b;
-    line-height: 1.6;
-    transition: all 0.3s ease;
-    position: relative;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-}
-
-.warning-list li:hover {
-    transform: translateX(10px) scale(1.02);
-    background: rgba(255, 240, 240, 0.98);
-    box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
-}
-
-.warning-list li::before {
-    content: "💀";
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.2rem;
-    opacity: 0.7;
-}
-
-.warning-list li strong {
-    color: #ff6b6b;
-    font-weight: 600;
-}
-
-.romantic-twist {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, #00b894, #00cec9);
-    border-radius: 15px;
-    color: white;
-    border: 3px dashed #fdcb6e;
-}
-
-.romantic-twist h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
-    color: #fdcb6e;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.romantic-twist p {
-    font-size: 1.1rem;
-    color: white;
-    line-height: 1.8;
-    margin-bottom: 1rem;
-}
-
-.romantic-twist p:last-child {
-    font-style: italic;
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.final-warning {
-    text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, #2d3436, #636e72);
-    border-radius: 15px;
-    color: white;
-    border: 3px solid #e17055;
-    position: relative;
-}
-
-.final-warning::before {
-    content: "🚨 EMERGENCY BROADCAST 🚨";
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #e17055;
-    color: white;
-    padding: 5px 20px;
-    font-size: 0.8rem;
+.final-text {
+    font-size: 1.3rem;
+    margin: 2rem 0;
     font-weight: bold;
-    border-radius: 20px;
-    animation: blink 2s infinite;
+    color: #333;
 }
 
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0.5; }
-}
-
-.final-warning p {
+.signature-meme {
     font-size: 1.2rem;
-    color: white;
-    margin-bottom: 1rem;
-}
-
-.final-warning p:first-child {
-    font-weight: 600;
-    color: #e17055;
-    font-size: 1.3rem;
-}
-
-.signature {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    color: #fdcb6e;
     font-style: italic;
-    margin-top: 1rem;
-    display: block;
+    color: #666;
+    margin-top: 2rem;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
-    .main-title {
-        font-size: 2.2rem;
+    .container {
+        padding: 1rem;
     }
     
-    .subtitle {
+    .drake-face {
+        font-size: 3rem;
+        margin-right: 1rem;
+        min-width: 80px;
+    }
+    
+    .drake-text {
+        font-size: 1.1rem;
+    }
+    
+    .meme-content h2 {
+        font-size: 1.4rem;
+    }
+    
+    .meme-visual {
+        flex-direction: column;
+        gap: 1rem;
         font-size: 1rem;
     }
     
-    .main-content {
-        margin: 1rem;
-        padding: 2.5rem 1.5rem;
+    .brain-level, .wojak-stage, .exp-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
     }
     
-    .warning-header h2 {
-        font-size: 2rem;
+    .brain-img, .wojak, .meme-emoji {
+        margin-right: 0;
     }
     
-    .warning-header p {
-        font-size: 1rem;
+    .stonks-meme {
+        flex-direction: column;
+        gap: 1rem;
     }
-    
-    .warning-list h3 {
-        font-size: 1.5rem;
-    }
-    
-    .warning-list li {
-        font-size: 0.95rem;
-        padding: 1.2rem;
-        margin-bottom: 1rem;
-    }
-    
-    .romantic-twist h3 {
-        font-size: 1.5rem;
-    }
-    
-    .romantic-twist p {
-        font-size: 1rem;
-    }
-    
-    .hero {
-        height: 50vh;
-    }
-}
-
-/* Subtle hover effects */
-.main-content {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.main-content:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
 }

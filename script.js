@@ -1,58 +1,54 @@
-// Simple, elegant animations with a fun twist
+// Meme website animations
 document.addEventListener('DOMContentLoaded', function() {
-    // Dramatic typing effect for warning title
-    const mainTitle = document.querySelector('.main-title');
-    if (mainTitle) {
-        const text = mainTitle.textContent;
-        mainTitle.textContent = '';
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < text.length) {
-                mainTitle.textContent += text.charAt(i);
-                i++;
-                // Add some drama with variable speed
-                const delay = text.charAt(i) === '⚠' ? 300 : 100;
-                setTimeout(typeWriter, delay);
-            }
-        }
-        
-        setTimeout(typeWriter, 800);
-    }
-
-    // Smooth fade-in for content after title finishes
-    const mainContent = document.querySelector('.main-content');
-    if (mainContent) {
-        mainContent.style.opacity = '0';
-        mainContent.style.transform = 'translateY(20px)';
-        mainContent.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    // Simple fade-in animation for all meme sections
+    const memeContent = document.querySelector('.meme-content');
+    const drakeSection = document.querySelector('.meme-header');
+    
+    if (drakeSection) {
+        drakeSection.style.opacity = '0';
+        drakeSection.style.transform = 'translateY(30px)';
+        drakeSection.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
         
         setTimeout(() => {
-            mainContent.style.opacity = '1';
-            mainContent.style.transform = 'translateY(0)';
-        }, 2500);
+            drakeSection.style.opacity = '1';
+            drakeSection.style.transform = 'translateY(0)';
+        }, 300);
+    }
+    
+    if (memeContent) {
+        memeContent.style.opacity = '0';
+        memeContent.style.transform = 'translateY(20px)';
+        memeContent.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        
+        setTimeout(() => {
+            memeContent.style.opacity = '1';
+            memeContent.style.transform = 'translateY(0)';
+        }, 800);
     }
 
-    // Add warning flash effect
-    const warningHeader = document.querySelector('.warning-header');
-    if (warningHeader) {
-        setTimeout(() => {
-            warningHeader.style.animation = 'warningFlash 2s ease-in-out';
-        }, 3000);
-    }
+    // Add hover effects to meme boxes
+    const memeBoxes = document.querySelectorAll('.distracted-boyfriend, .galaxy-brain, .this-is-fine, .expanding-brain-section, .wojak-section, .final-meme');
+    memeBoxes.forEach(box => {
+        box.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        box.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+
+    // Add click effects to emojis
+    const emojis = document.querySelectorAll('.drake-face, .brain-img, .fire-dog, .meme-emoji, .wojak, .stonks');
+    emojis.forEach(emoji => {
+        emoji.addEventListener('click', function() {
+            this.style.transform = 'scale(1.3)';
+            this.style.transition = 'transform 0.2s ease';
+            
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+    });
 });
-
-// Add CSS for warning flash animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes warningFlash {
-        0%, 100% {
-            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
-        }
-        50% {
-            box-shadow: 0 5px 30px rgba(255, 107, 107, 0.8);
-            transform: scale(1.02);
-        }
-    }
-`;
-document.head.appendChild(style);
