@@ -1,21 +1,6 @@
 // Simple, elegant animations
 document.addEventListener('DOMContentLoaded', function() {
-    // Smooth fade-in for content
-    const mainContent = document.querySelector('.main-content');
-    if (mainContent) {
-        setTimeout(() => {
-            mainContent.style.opacity = '0';
-            mainContent.style.transform = 'translateY(30px)';
-            mainContent.style.transition = 'opacity 1s ease, transform 1s ease';
-            
-            setTimeout(() => {
-                mainContent.style.opacity = '1';
-                mainContent.style.transform = 'translateY(0)';
-            }, 500);
-        }, 1500);
-    }
-
-    // Subtle typing effect for main title (optional)
+    // Typing effect for main title
     const mainTitle = document.querySelector('.main-title');
     if (mainTitle) {
         const text = mainTitle.textContent;
@@ -30,6 +15,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        setTimeout(typeWriter, 1000);
+        setTimeout(typeWriter, 800);
+    }
+
+    // Smooth fade-in for content after title finishes
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+        mainContent.style.opacity = '0';
+        mainContent.style.transform = 'translateY(20px)';
+        mainContent.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+        
+        setTimeout(() => {
+            mainContent.style.opacity = '1';
+            mainContent.style.transform = 'translateY(0)';
+        }, 2000);
     }
 });
