@@ -1,187 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Germany.exe has stopped working</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Courier+New&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Welcome, Evan!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  :root {
+    --bg-start: #f5f7fa;
+    --bg-end: #c3cfe2;
+    --accent: #1a73e8;
+    --accent-hover: #155ab6;
+    --text: #2a2e35;
+    --muted: #566170;
+    --card-bg: rgba(255,255,255,0.55);
+    --card-border: rgba(255,255,255,0.3);
+    --shadow: 0 8px 30px -5px rgba(31,59,94,0.15);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-start: #0f172a;
+      --bg-end: #1e293b;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --card-bg: rgba(30,41,59,0.6);
+      --card-border: rgba(255,255,255,0.08);
+      --shadow: 0 10px 40px -8px rgba(0,0,0,0.55);
+    }
+  }
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem clamp(1rem,3vw,3rem);
+    position: relative;
+    overflow: hidden;
+  }
+  /* Subtle animated background blobs */
+  body::before, body::after {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle at 30% 30%, var(--accent) 0%, transparent 70%);
+    top: -250px;
+    left: -250px;
+    opacity: 0.15;
+    animation: float1 18s linear infinite;
+    pointer-events: none;
+  }
+  body::after {
+    top: auto; bottom: -260px; left: auto; right: -260px;
+    background: radial-gradient(circle at 70% 70%, var(--accent-hover) 0%, transparent 70%);
+    animation: float2 22s linear infinite;
+  }
+  @keyframes float1 { 0% {transform: rotate(0deg) scale(1);} 50% {transform: rotate(180deg) scale(1.15);} 100% {transform: rotate(360deg) scale(1);} }
+  @keyframes float2 { 0% {transform: rotate(0deg) scale(1);} 50% {transform: rotate(-200deg) scale(0.85);} 100% {transform: rotate(-360deg) scale(1);} }
+
+  .card {
+    width: min(680px, 100%);
+    background: var(--card-bg);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid var(--card-border);
+    border-radius: 32px;
+    padding: clamp(1.5rem,4vw,3rem) clamp(1.2rem,3vw,2.5rem) clamp(2.2rem,5vw,3.2rem);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(140deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+    opacity: 0;
+    animation: sheen 5s ease 1.2s forwards;
+    pointer-events: none;
+  }
+  @keyframes sheen { to { opacity: 1; } }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    margin: 0 0 0.4rem 0;
+    line-height: 1.15;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    animation: fadeSlide 1.2s cubic-bezier(.4,.7,.3,1) forwards;
+    opacity: 0;
+  }
+  h2 {
+    font-weight: 400;
+    color: var(--muted);
+    margin: 0 0 1.8rem 0;
+    font-size: clamp(1.05rem, 2.3vw, 1.5rem);
+    animation: fadeSlide 1.4s 0.2s cubic-bezier(.4,.7,.3,1) forwards;
+    opacity: 0;
+  }
+  #countdown {
+    font-size: clamp(1.15rem, 2.6vw, 1.65rem);
+    margin: 0 0 1.9rem 0;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    animation: fadeSlide 1.4s 0.35s cubic-bezier(.4,.7,.3,1) forwards;
+    opacity: 0;
+  }
+  button {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    color: #fff;
+    border: none;
+    border-radius: 1000px;
+    padding: 0.95rem 2.4rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px -4px rgba(26,115,232,0.55);
+    transition: transform .25s cubic-bezier(.22,.75,.45,1), box-shadow .3s ease, filter .3s ease;
+    animation: fadeSlide 1.4s 0.55s cubic-bezier(.4,.7,.3,1) forwards, pulse 5s 3s infinite;
+    opacity: 0;
+  }
+  button:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 10px 28px -6px rgba(26,115,232,0.6);
+    filter: brightness(1.05);
+  }
+  button:active { transform: translateY(0) scale(.97); box-shadow: 0 4px 16px -4px rgba(26,115,232,0.5); }
+  button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+  @keyframes pulse { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15); } }
+
+  #secretMessage {
+    margin-top: 1.8rem;
+    font-size: clamp(1rem, 2.1vw, 1.25rem);
+    color: var(--text);
+    max-width: 460px;
+    min-height: 2.2em;
+    opacity: 0;
+    line-height: 1.4;
+    transform: translateY(6px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  #secretMessage.visible { opacity: 1 !important; transform: translateY(0); }
+
+  @keyframes fadeSlide { 0% {opacity:0; transform: translateY(18px);} 100% {opacity:1; transform: translateY(0);} }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition: none !important; }
+  }
+
+  /* Tiny utility for countdown digit emphasis */
+  #countdown span { display:inline-block; min-width: 2ch; }
+
+  /* Confetti appended after main styles for clarity */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 10px; height: 14px;
+    border-radius: 2px;
+    opacity: 0.9;
+    animation: fall 6s linear forwards;
+    transform: translateY(0) rotate(0deg);
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10px) rotate(0deg); }
+    70% { opacity: 0.9; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Meme Header -->
-        <section class="meme-header">
-            <div class="drake-meme">
-                <div class="drake-row">
-                    <div class="drake-face">😤</div>
-                    <div class="drake-text">Visiting any normal country</div>
-                </div>
-                <div class="drake-row">
-                    <div class="drake-face">😍</div>
-                    <div class="drake-text">Coming to Germany and having your soul crushed by efficiency</div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Meme Content -->
-        <section class="meme-content">
-            <div class="distracted-boyfriend">
-                <h2>POV: You're deciding where to visit your girlfriend</h2>
-                <div class="meme-visual">
-                    <div class="boyfriend">🤵 You</div>
-                    <div class="girlfriend">👩 Normal vacation spots</div>
-                    <div class="other-woman">👸 Germany (and me obviously)</div>
-                </div>
-            </div>
+<div class="card">
+  <h1>Hey Evan… guess who’s been waiting for you 👀</h1>
+  <h2>Germany’s about to get 100% cooler 😎</h2>
+  <div id="countdown" aria-live="polite">Loading countdown...</div>
+  <button id="revealBtn" type="button" aria-controls="secretMessage" aria-expanded="false">Click me for a secret</button>
+  <div id="secretMessage" role="status"></div>
+</div>
 
-            <div class="galaxy-brain">
-                <h2>Galaxy Brain: Visiting Germany Levels</h2>
-                <div class="brain-levels">
-                    <div class="brain-level">
-                        <div class="brain-img">🧠</div>
-                        <div class="brain-text">Thinking Germany is just beer and lederhosen</div>
-                    </div>
-                    <div class="brain-level">
-                        <div class="brain-img">🧠✨</div>
-                        <div class="brain-text">Realizing they have 40+ bread types and take it seriously</div>
-                    </div>
-                    <div class="brain-level">
-                        <div class="brain-img">🧠💫</div>
-                        <div class="brain-text">Understanding that Sunday = apocalypse (everything closed)</div>
-                    </div>
-                    <div class="brain-level">
-                        <div class="brain-img">🧠🌟💥</div>
-                        <div class="brain-text">Accepting that Germans hike to buy groceries and this is normal</div>
-                    </div>
-                </div>
-            </div>
+<script>
+  const countdownEl = document.getElementById('countdown');
+  const arrivalDate = new Date('2025-10-28T00:00:00');
 
-            <div class="this-is-fine">
-                <h2>You visiting Germany be like:</h2>
-                <div class="fire-scene">
-                    <div class="fire-dog">🔥🐕🔥</div>
-                    <div class="fine-text">"This is fine"</div>
-                    <div class="situation">*Germans explaining why the toilet has a shelf*</div>
-                </div>
-            </div>
+  function formatPart(value, label) {
+    return `<span>${value}</span>${label}`;
+  }
+  function updateCountdown() {
+    const now = new Date();
+    const diff = arrivalDate - now;
+    if (diff <= 0) {
+      countdownEl.textContent = "Evan has arrived! 🎉";
+      clearInterval(interval);
+      launchConfetti();
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+    countdownEl.innerHTML = `${formatPart(days,'d ')}${formatPart(hours,'h ')}${formatPart(minutes,'m ')}${formatPart(seconds,'s')} until you’re here!`;
+  }
+  updateCountdown();
+  const interval = setInterval(updateCountdown, 1000);
 
-            <div class="expanding-brain-section">
-                <h2>German Experiences That Will Break You:</h2>
-                <div class="experience-list">
-                    <div class="exp-item">
-                        <span class="meme-emoji">😤</span>
-                        <span class="exp-text"><strong>Autobahn:</strong> Speed limit is a suggestion. Grandmas in Mercedes will make you question reality.</span>
-                    </div>
-                    <div class="exp-item">
-                        <span class="meme-emoji">🤯</span>
-                        <span class="exp-text"><strong>German Time:</strong> 15 minutes early = on time. On time = late. Late = you're dead to them.</span>
-                    </div>
-                    <div class="exp-item">
-                        <span class="meme-emoji">💀</span>
-                        <span class="exp-text"><strong>Currywurst:</strong> They put curry powder on sausage and act like they invented flavor.</span>
-                    </div>
-                    <div class="exp-item">
-                        <span class="meme-emoji">🗿</span>
-                        <span class="exp-text"><strong>Bread Museum:</strong> Yes, it exists. Yes, we're going. Yes, you'll learn about sourdough starter cultures.</span>
-                    </div>
-                    <div class="exp-item">
-                        <span class="meme-emoji">🤡</span>
-                        <span class="exp-text"><strong>Christmas Markets:</strong> You'll buy 47 tiny wooden things you don't need. This is the law.</span>
-                    </div>
-                </div>
-            </div>
+  /* Secret Message Reveal */
+  const revealBtn = document.getElementById('revealBtn');
+  const secretMessage = document.getElementById('secretMessage');
+  const jokes = [
+    "Why don’t scientists trust atoms? Because they make up everything!",
+    "I was going to tell you a joke about time travel, but you didn’t like it.",
+    "Why did the scarecrow win an award? Because he was outstanding in his field!",
+    "You + Me = ❤️ (and a lot of silly jokes)",
+    "Welcome to Germany, where the beer is cold and the hearts are warm!",
+    "Passport ready? Because adventure is boarding soon! ✈️",
+    "Plot twist: Germany was waiting for YOU too!" 
+  ];
+  revealBtn.addEventListener('click', () => {
+    const randomIndex = Math.floor(Math.random() * jokes.length);
+    secretMessage.textContent = jokes[randomIndex];
+    secretMessage.classList.add('visible');
+    revealBtn.setAttribute('aria-expanded','true');
+  });
 
-            <div class="wojak-section">
-                <h2>Your German Adventure Progression:</h2>
-                <div class="wojak-timeline">
-                    <div class="wojak-stage">
-                        <div class="wojak">😊</div>
-                        <div class="stage-text">Day 1: "Germany seems nice!"</div>
-                    </div>
-                    <div class="wojak-stage">
-                        <div class="wojak">😐</div>
-                        <div class="stage-text">Day 3: "Why is everything closed on Sunday?"</div>
-                    </div>
-                    <div class="wojak-stage">
-                        <div class="wojak">😨</div>
-                        <div class="stage-text">Day 5: "The toilet has a WHAT now?"</div>
-                    </div>
-                    <div class="wojak-stage">
-                        <div class="wojak">🤤</div>
-                        <div class="stage-text">Day 10: "Actually, this pretzel slaps..."</div>
-                    </div>
-                    <div class="wojak-stage">
-                        <div class="wojak">😍</div>
-                        <div class="stage-text">Day 15: "I understand German efficiency now"</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="final-meme">
-                <h2>Me watching you try to understand Germany:</h2>
-                <div class="stonks-meme">
-                    <div class="stonks">📈</div>
-                    <div class="stonks-text">
-                        <div>BOYFRIEND CONFUSION</div>
-                        <div class="arrow">↗️</div>
-                    </div>
-                </div>
-                <p class="final-text">But fr, you're gonna love this weird country (and your weird tour guide) 💕</p>
-                <div class="signature-meme">— Your based German girlfriend 🇩🇪✨</div>
-            </div>
-        </section>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
-        <section class="main-content">
-            <div class="warning-header">
-                <h2>� PREPARE TO BE TRAUMATIZED �</h2>
-                <p>The following experiences will permanently damage your brain in the most German way possible...</p>
-            </div>
-
-            <div class="warning-list">
-                <h3>🇩🇪 Survival Tips for My Boyfriend's German Adventure:</h3>
-                <ul>
-                    <li><strong>🥨 The Great Pretzel Conspiracy:</strong> They're everywhere. EVERYWHERE. You'll find yourself saying "Guten Tag" to pretzels. This is normal here. Don't fight it.</li>
-                    
-                    <li><strong>🍺 Beer Math:</strong> 1L beer = breakfast. 2L beer = lunch. 3L beer = "I'm still sober enough to drive" (they're not, but somehow they are??)</li>
-                    
-                    <li><strong>🚗 Autobahn Reality Check:</strong> Speed limit? What's that? Your rental car will be passed by a grandma in a Mercedes going 200km/h while knitting.</li>
-                    
-                    <li><strong>🕐 German Time:</strong> If you're not 15 minutes early, you're late. If you're on time, you're disrespectful. If you're late, you're probably dead to them.</li>
-                    
-                    <li><strong>🥾 Hiking Obsession:</strong> Germans hike to the grocery store. In full hiking gear. With trekking poles. For a 5-minute walk. You will be judged for wearing sneakers.</li>
-                    
-                    <li><strong>� Currywurst Confusion:</strong> It's curry powder on a sausage. That's it. Germans act like it's a Michelin star dish. Just smile and nod.</li>
-                    
-                    <li><strong>🏰 Castle Overload:</strong> "Oh look, another castle!" - You, approximately 47 times per day. Every hill has one. It's like they had a castle contest and everyone won.</li>
-                    
-                    <li><strong>🎄 Christmas Market Madness:</strong> November through February = mandatory Glühwein consumption. You'll buy 17 tiny wooden ornaments you don't need. This is the law.</li>
-                    
-                    <li><strong>� The Toilet Shelf:</strong> German toilets have a shelf. Google it. I can't explain this. Nobody can. Welcome to trauma.</li>
-                    
-                    <li><strong>🚪 Sunday Shutdown:</strong> Everything closes on Sunday. EVERYTHING. God himself apparently needs Germans to rest. You'll starve unless you plan ahead.</li>
-                </ul>
-            </div>
-
-            <div class="romantic-twist">
-                <h3>💕 But here's the plot twist...</h3>
-                <p>You'll probably fall in love with this absolutely ridiculous country and its weird customs. And more importantly, you'll be stuck with me as your tour guide through this beautiful chaos. I promise to protect you from the more traumatic experiences (like explaining why we eat raw pork).</p>
-                
-                <p><strong>Warning:</strong> Side effects may include: uncontrollable urge to say "Das ist ja toll!", addiction to Deutsche Bahn delays, and finding my terrible German accent adorable.</p>
-            </div>
-
-            <div class="final-warning">
-                <p><strong>🚨 FINAL NOTICE: 🚨</strong></p>
-                <p>Germany is ready to break your brain in the best way possible.</p>
-                <p>I'm ready to laugh at you while it happens. 😘</p>
-                <span class="signature">Your slightly sadistic German adventure coordinator 🇩🇪💕</span>
-            </div>
-        </section>
-    </div>
-
-    <script src="script.js"></script>
+  /* Simple confetti when arrival */
+  function launchConfetti() {
+    for (let i = 0; i < 80; i++) {
+      const conf = document.createElement('div');
+      conf.className = 'confetti';
+      conf.style.setProperty('--x', Math.random()*100 + 'vw');
+      conf.style.setProperty('--delay', Math.random()*0.7 + 's');
+      conf.style.background = `hsl(${Math.random()*360},85%,60%)`;
+      conf.style.left = Math.random()*100 + 'vw';
+      conf.style.animationDelay = Math.random()*2 + 's';
+      document.body.appendChild(conf);
+      setTimeout(()=> conf.remove(), 6000);
+    }
+  }
+</script>
 </body>
 </html>
