@@ -178,6 +178,17 @@
     transition: opacity 0.55s ease, transform 0.55s ease;
   }
   #secretMessage.visible { opacity: 1 !important; transform: translateY(0); }
+  /* Blinking caret while typing for clearer feedback */
+  #secretMessage.typing::after {
+    content: '';
+    display: inline-block;
+    width: 1px; height: 1em;
+    background: currentColor;
+    margin-left: 3px;
+    vertical-align: -0.1em;
+    animation: caretBlink 1s steps(2, jump-none) infinite;
+  }
+  @keyframes caretBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 
   @keyframes fadeSlide { 0% {opacity:0; transform: translateY(18px);} 100% {opacity:1; transform: translateY(0);} }
 
@@ -256,9 +267,9 @@
   // Typewriter helpers with simple cancellation
   let activeToken = 0;
   let lastJokeIndex = -1;
-  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+  function sleep(ms) { return new Promise(function(r){ setTimeout(r, ms); }); }
 
-  async function typeText(token, el, text, step = 28) {
+  async function typeText(token, el, text, step) {
     el.textContent = '';
     for (let i = 0; i < text.length; i++) {
       if (token !== activeToken) return; // canceled
@@ -267,7 +278,7 @@
     }
   }
 
-  async function deleteText(token, el, step = 20) {
+  async function deleteText(token, el, step) {
     const s = el.textContent;
     for (let i = s.length; i >= 0; i--) {
       if (token !== activeToken) return; // canceled
@@ -276,16 +287,16 @@
     }
   }
 
-  revealBtn.addEventListener('click', async () => {
+  revealBtn.addEventListener('click', async function() {
     // Ripple on every click (non-disruptive)
     try {
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReduced) {
         const rect = revealBtn.getBoundingClientRect();
         const ripple = document.createElement('span');
         ripple.className = 'ripple-effect';
-        const cx = (window.__lastPointerX ?? (rect.left + rect.width / 2));
-        const cy = (window.__lastPointerY ?? (rect.top + rect.height / 2));
+        var cx = (typeof window.__lastPointerX === 'number') ? window.__lastPointerX : (rect.left + rect.width / 2);
+        var cy = (typeof window.__lastPointerY === 'number') ? window.__lastPointerY : (rect.top + rect.height / 2);
         const x = cx - rect.left;
         const y = cy - rect.top;
         const maxDist = Math.max(
@@ -308,9 +319,11 @@
     const isVisible = secretMessage.classList.contains('visible');
 
     if (isVisible && secretMessage.textContent) {
-      await deleteText(token, secretMessage, 20);
+      secretMessage.classList.add('typing');
+      await deleteText(token, secretMessage, 18);
       if (token !== activeToken) return; // canceled by a newer click
       secretMessage.classList.remove('visible');
+      secretMessage.classList.remove('typing');
       revealBtn.setAttribute('aria-expanded','false');
       return;
     }
@@ -324,15 +337,18 @@
 
     const nextText = jokes[randomIndex];
     secretMessage.classList.add('visible');
+  secretMessage.classList.add('typing');
     revealBtn.setAttribute('aria-expanded','true');
-    await typeText(token, secretMessage, nextText, 28);
+  await typeText(token, secretMessage, nextText, 36);
+  if (token !== activeToken) return;
+  secretMessage.classList.remove('typing');
     // If canceled mid-typing, do nothing; otherwise finished typing
   });
 
   // Track last pointer position to start ripple at actual click point (supports keyboard as well)
-  ['pointerdown','mousedown','touchstart'].forEach(evt => {
-    document.addEventListener(evt, (e) => {
-      const p = e.touches?.[0] || e;
+  ;['pointerdown','mousedown','touchstart'].forEach(function(evt){
+    document.addEventListener(evt, function(e){
+      var p = (e.touches && e.touches[0]) ? e.touches[0] : e;
       window.__lastPointerX = p.clientX;
       window.__lastPointerY = p.clientY;
     }, { capture: true, passive: true });
