@@ -134,6 +134,9 @@
     transition: transform .25s cubic-bezier(.22,.75,.45,1), box-shadow .3s ease, filter .3s ease;
     animation: fadeSlide 1.4s 0.55s cubic-bezier(.4,.7,.3,1) forwards, pulse 5s 3s infinite;
     opacity: 0;
+  position: relative;           /* needed for ripple containment */
+  overflow: hidden;             /* keep ripple inside button */
+  -webkit-tap-highlight-color: transparent; /* cleaner touch */
   }
   button:hover {
     transform: translateY(-4px) scale(1.03);
@@ -144,6 +147,22 @@
   button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
 
   @keyframes pulse { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15); } }
+
+  /* Click ripple effect (adds on click, removed after animation) */
+  .ripple-effect {
+    position: absolute;
+    width: 10px; height: 10px; /* will be resized by JS */
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple 580ms ease-out forwards;
+    mix-blend-mode: screen;
+    filter: blur(0.2px);
+  }
+  @keyframes ripple {
+    to { transform: translate(-50%, -50%) scale(4.5); opacity: 0; }
+  }
 
   #secretMessage {
     margin-top: 1.8rem;
@@ -237,6 +256,43 @@
     secretMessage.textContent = jokes[randomIndex];
     secretMessage.classList.add('visible');
     revealBtn.setAttribute('aria-expanded','true');
+
+    // Create a subtle ripple on each click without altering base visuals
+    try {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!prefersReduced) {
+        const rect = revealBtn.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-effect';
+        // Use last pointer position if available, else center
+        const cx = (window.__lastPointerX ?? (rect.left + rect.width / 2));
+        const cy = (window.__lastPointerY ?? (rect.top + rect.height / 2));
+        const x = cx - rect.left;
+        const y = cy - rect.top;
+        // Size should cover the furthest corner
+        const maxDist = Math.max(
+          Math.hypot(x, y),
+          Math.hypot(rect.width - x, y),
+          Math.hypot(x, rect.height - y),
+          Math.hypot(rect.width - x, rect.height - y)
+        );
+        const size = maxDist * 2.1; // slight overdraw for clean fade
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        revealBtn.appendChild(ripple);
+        ripple.addEventListener('animationend', () => ripple.remove());
+      }
+    } catch(_) { /* no-op */ }
+  });
+
+  // Track last pointer position to start ripple at actual click point (supports keyboard as well)
+  ['pointerdown','mousedown','touchstart'].forEach(evt => {
+    document.addEventListener(evt, (e) => {
+      const p = e.touches?.[0] || e;
+      window.__lastPointerX = p.clientX;
+      window.__lastPointerY = p.clientY;
+    }, { capture: true, passive: true });
   });
 
   /* Simple confetti when arrival */
