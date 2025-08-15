@@ -16,6 +16,10 @@
     --card-bg: rgba(255,255,255,0.55);
     --card-border: rgba(255,255,255,0.3);
     --shadow: 0 8px 30px -5px rgba(31,59,94,0.15);
+    /* Softer heading gradient + eyes color */
+    --heading-start: #4f8df6; /* soft blue */
+    --heading-end: #8b87f8;   /* soft indigo */
+    --eyes-color: #5f8df1;    /* pleasant soft blue */
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -28,6 +32,9 @@
       --card-bg: rgba(30,41,59,0.6);
       --card-border: rgba(255,255,255,0.08);
       --shadow: 0 10px 40px -8px rgba(0,0,0,0.55);
+      --heading-start: #60a5fa; /* brighter soft blue for dark */
+      --heading-end: #8b5cf6;   /* soft violet */
+      --eyes-color: #93c5fd;    /* light blue for dark bg */
     }
   }
   body {
@@ -93,7 +100,7 @@
     font-size: clamp(2rem, 5vw, 3.2rem);
     margin: 0 0 0.4rem 0;
     line-height: 1.15;
-    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+    background: linear-gradient(90deg, var(--heading-start), var(--heading-end));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -102,6 +109,9 @@
     animation: fadeSlide 1.2s cubic-bezier(.4,.7,.3,1) forwards;
     opacity: 0;
   }
+  /* Eyes icon tweaks */
+  .eyes { display: inline-flex; align-items: center; margin-left: 0.3rem; vertical-align: -0.08em; }
+  .eyes svg { width: 1.15em; height: 1.15em; }
   h2 {
     font-weight: 400;
     color: var(--muted);
@@ -220,7 +230,14 @@
 <body>
 
 <div class="card">
-  <h1>Hey Evan… guess who’s been waiting for you 👀</h1>
+  <h1>Hey Evan… guess who’s been waiting for you <span class="eyes" aria-hidden="true">
+    <svg viewBox="0 0 48 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+      <ellipse cx="12" cy="12" rx="9.5" ry="8.5" fill="none" stroke="var(--eyes-color)" stroke-width="2.4"/>
+      <circle cx="12" cy="12" r="3.8" fill="var(--eyes-color)"/>
+      <ellipse cx="36" cy="12" rx="9.5" ry="8.5" fill="none" stroke="var(--eyes-color)" stroke-width="2.4"/>
+      <circle cx="36" cy="12" r="3.8" fill="var(--eyes-color)"/>
+    </svg>
+  </span></h1>
   <h2>Germany’s about to get 100% cooler 😎</h2>
   <div id="countdown" aria-live="polite">Loading countdown...</div>
   <button id="revealBtn" type="button" aria-controls="secretMessage" aria-expanded="false">Click me for a secret</button>
