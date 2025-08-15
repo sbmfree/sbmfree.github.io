@@ -20,6 +20,7 @@
     --heading-start: #f59e0b; /* amber */
     --heading-end: #f43f5e;   /* rose */
     --eyes-color: #fb7185;    /* soft coral */
+  --focus-ring: rgba(244,63,94,0.35); /* rounded focus ring color */
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -34,7 +35,8 @@
       --shadow: 0 10px 40px -8px rgba(0,0,0,0.6);
       --heading-start: #f59e0b; /* amber */
       --heading-end: #f43f5e;   /* rose */
-      --eyes-color: #fca5a5;    /* light coral */
+  --eyes-color: #fca5a5;    /* light coral */
+  --focus-ring: rgba(251,113,133,0.5);
     }
   }
   body {
@@ -151,7 +153,8 @@
     opacity: 0;
   position: relative;           /* needed for ripple containment */
   overflow: hidden;             /* keep ripple inside button */
-  -webkit-tap-highlight-color: transparent; /* cleaner touch */
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* remove iOS tap highlight */
+  outline: none; /* prevent default outline on some mobile browsers */
   touch-action: manipulation;   /* faster tap response */
   will-change: transform, filter;
   }
@@ -161,7 +164,11 @@
     filter: brightness(1.05);
   }
   button:active { transform: translateY(0) scale(.97); box-shadow: 0 4px 16px -4px rgba(244,63,94,0.45); }
-  button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+  /* Rounded focus ring (replaces squared browser outline) */
+  button:focus, button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus-ring), 0 6px 18px -4px rgba(244,63,94,0.45);
+  }
 
   @keyframes pulse { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15); } }
 
