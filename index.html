@@ -253,32 +253,48 @@
     "Passport ready? Because adventure is boarding soon! ✈️",
     "Plot twist: Germany was waiting for YOU too!" 
   ];
-  revealBtn.addEventListener('click', () => {
-    const randomIndex = Math.floor(Math.random() * jokes.length);
-    secretMessage.textContent = jokes[randomIndex];
-    secretMessage.classList.add('visible');
-    revealBtn.setAttribute('aria-expanded','true');
+  // Typewriter helpers with simple cancellation
+  let activeToken = 0;
+  let lastJokeIndex = -1;
+  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-    // Create a subtle ripple on each click without altering base visuals
+  async function typeText(token, el, text, step = 28) {
+    el.textContent = '';
+    for (let i = 0; i < text.length; i++) {
+      if (token !== activeToken) return; // canceled
+      el.textContent += text[i];
+      await sleep(step);
+    }
+  }
+
+  async function deleteText(token, el, step = 20) {
+    const s = el.textContent;
+    for (let i = s.length; i >= 0; i--) {
+      if (token !== activeToken) return; // canceled
+      el.textContent = s.slice(0, i);
+      await sleep(step);
+    }
+  }
+
+  revealBtn.addEventListener('click', async () => {
+    // Ripple on every click (non-disruptive)
     try {
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReduced) {
         const rect = revealBtn.getBoundingClientRect();
         const ripple = document.createElement('span');
         ripple.className = 'ripple-effect';
-        // Use last pointer position if available, else center
         const cx = (window.__lastPointerX ?? (rect.left + rect.width / 2));
         const cy = (window.__lastPointerY ?? (rect.top + rect.height / 2));
         const x = cx - rect.left;
         const y = cy - rect.top;
-        // Size should cover the furthest corner
         const maxDist = Math.max(
           Math.hypot(x, y),
           Math.hypot(rect.width - x, y),
           Math.hypot(x, rect.height - y),
           Math.hypot(rect.width - x, rect.height - y)
         );
-        const size = maxDist * 2.1; // slight overdraw for clean fade
+        const size = maxDist * 2.1;
         ripple.style.width = ripple.style.height = size + 'px';
         ripple.style.left = x + 'px';
         ripple.style.top = y + 'px';
@@ -286,6 +302,31 @@
         ripple.addEventListener('animationend', () => ripple.remove());
       }
     } catch(_) { /* no-op */ }
+
+    // Toggle show/hide with typewriter effect
+    const token = ++activeToken; // new session, cancels any ongoing typing
+    const isVisible = secretMessage.classList.contains('visible');
+
+    if (isVisible && secretMessage.textContent) {
+      await deleteText(token, secretMessage, 20);
+      if (token !== activeToken) return; // canceled by a newer click
+      secretMessage.classList.remove('visible');
+      revealBtn.setAttribute('aria-expanded','false');
+      return;
+    }
+
+    // Choose a new random joke (avoid immediate repeat if possible)
+    let randomIndex;
+    do {
+      randomIndex = Math.floor(Math.random() * jokes.length);
+    } while (jokes.length > 1 && randomIndex === lastJokeIndex);
+    lastJokeIndex = randomIndex;
+
+    const nextText = jokes[randomIndex];
+    secretMessage.classList.add('visible');
+    revealBtn.setAttribute('aria-expanded','true');
+    await typeText(token, secretMessage, nextText, 28);
+    // If canceled mid-typing, do nothing; otherwise finished typing
   });
 
   // Track last pointer position to start ripple at actual click point (supports keyboard as well)
